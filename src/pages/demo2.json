@@ -1,0 +1,654 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Restful API 列表",
+        "title": "写稿工具OpenAPI"
+    },
+    "host": "moctest.sobeylingyun.com",
+    "basePath": "/articleeditor",
+    "tags": [
+        {
+            "name": "任务相关接口",
+            "description": "Task Controller"
+        }
+    ],
+    "paths": {
+        "/articleeditor/api/v1/task": {
+            "post": {
+                "tags": [
+                    "任务相关接口"
+                ],
+                "summary": "指派任务",
+                "operationId": "addTaskUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "认证信息token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lang",
+                        "in": "header",
+                        "description": "国际化",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "zh_CN",
+                            "en_US"
+                        ]
+                    },
+                    {
+                        "in": "body",
+                        "name": "taskVO",
+                        "description": "taskVO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/任务实体",
+                            "originalRef": "任务实体"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id 返回对象",
+                            "originalRef": "id 返回对象"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/articleeditor/api/v1/task/count": {
+            "get": {
+                "tags": [
+                    "任务相关接口"
+                ],
+                "summary": "统计",
+                "operationId": "countUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "认证信息token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lang",
+                        "in": "header",
+                        "description": "国际化",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "zh_CN",
+                            "en_US"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/认领状态统计",
+                            "originalRef": "认领状态统计"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/articleeditor/api/v1/task/execute_result/{sourceId}": {
+            "get": {
+                "tags": [
+                    "任务相关接口"
+                ],
+                "summary": "查询任务执行结果",
+                "operationId": "executeListUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "sourceId",
+                        "name": "sourceId",
+                        "description": "任务来源id",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "65ba832afbbf4d259241758cf0e48771"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "认证信息token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lang",
+                        "in": "header",
+                        "description": "国际化",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "zh_CN",
+                            "en_US"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/任务执行结果",
+                                "originalRef": "任务执行结果"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/articleeditor/api/v1/task/list": {
+            "get": {
+                "tags": [
+                    "任务相关接口"
+                ],
+                "summary": "任务列表",
+                "operationId": "getTaskListUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "endTime",
+                        "in": "query",
+                        "description": "指派结束时间",
+                        "required": false,
+                        "type": "string",
+                        "x-example": "2020-11-1"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "标题",
+                        "required": false,
+                        "type": "string",
+                        "x-example": "任务1"
+                    },
+                    {
+                        "name": "pageNum",
+                        "in": "query",
+                        "description": "页码",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "1"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "每页个数",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "20"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "排序方式 desc：倒叙 asc：正序",
+                        "required": false,
+                        "type": "string",
+                        "x-example": "desc"
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "description": "排序字段",
+                        "required": false,
+                        "type": "string",
+                        "x-example": "create_date"
+                    },
+                    {
+                        "name": "startTime",
+                        "in": "query",
+                        "description": "指派开始时间",
+                        "required": false,
+                        "type": "string",
+                        "x-example": "2020-10-1"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "认领状态",
+                        "required": false,
+                        "type": "string",
+                        "x-example": "UNCLAIM"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "认证信息token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lang",
+                        "in": "header",
+                        "description": "国际化",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "zh_CN",
+                            "en_US"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/分页信息«Task,任务实体»",
+                            "originalRef": "分页信息«Task,任务实体»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/articleeditor/api/v1/task/{id}": {
+            "get": {
+                "tags": [
+                    "任务相关接口"
+                ],
+                "summary": "转换为稿件",
+                "operationId": "toArticleUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "任务id",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "65ba832afbbf4d259241758cf0e48771"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "稿件类型，1图文，5视频",
+                        "required": true,
+                        "type": "string",
+                        "x-example": "1"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "认证信息token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lang",
+                        "in": "header",
+                        "description": "国际化",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "zh_CN",
+                            "en_US"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/认领任务转换为稿件的实体",
+                            "originalRef": "认领任务转换为稿件的实体"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        }
+    },
+    "definitions": {
+        "Task": {
+            "type": "object",
+            "properties": {
+                "channel": {
+                    "type": "string"
+                },
+                "claimUserName": {
+                    "type": "string"
+                },
+                "create_date": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "processInstanceId": {
+                    "type": "string"
+                },
+                "site": {
+                    "type": "string"
+                },
+                "sourceId": {
+                    "type": "string"
+                },
+                "sourceType": {
+                    "type": "string",
+                    "enum": [
+                        "FORM"
+                    ]
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "UNCLAIM",
+                        "CLAIMED"
+                    ]
+                },
+                "update_date": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "title": "Task"
+        },
+        "id 返回对象": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "唯一主键"
+                }
+            },
+            "title": "id 返回对象"
+        },
+        "任务实体": {
+            "type": "object",
+            "properties": {
+                "channel": {
+                    "type": "string",
+                    "description": "指派渠道"
+                },
+                "claimUserName": {
+                    "type": "string",
+                    "description": "指派人"
+                },
+                "create_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "创建时间，任何操作都不传，只读"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "全局唯一主键，添加时不传，更新填写"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "任务名"
+                },
+                "processInstanceId": {
+                    "type": "string",
+                    "description": "流程示例id，弥补之前的错误"
+                },
+                "sourceId": {
+                    "type": "string",
+                    "description": "来源id"
+                },
+                "sourceType": {
+                    "type": "string",
+                    "description": "来源类型",
+                    "enum": [
+                        "FORM"
+                    ]
+                },
+                "status": {
+                    "type": "string",
+                    "description": "任务状态",
+                    "enum": [
+                        "UNCLAIM",
+                        "CLAIMED"
+                    ]
+                },
+                "update_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "修改时间，任何操作都不传，只读"
+                }
+            },
+            "title": "任务实体"
+        },
+        "任务执行结果": {
+            "type": "object",
+            "properties": {
+                "accountList": {
+                    "type": "array",
+                    "description": "发布账号列表",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "articleId": {
+                    "type": "string",
+                    "description": "稿件id"
+                },
+                "assignDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "指派时间"
+                },
+                "assignUserName": {
+                    "type": "string",
+                    "description": "指派人"
+                },
+                "channel": {
+                    "type": "string",
+                    "description": "渠道"
+                },
+                "executeDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "执行时间"
+                },
+                "executeUserCode": {
+                    "type": "string",
+                    "description": "执行人code"
+                },
+                "executeUserName": {
+                    "type": "string",
+                    "description": "执行人"
+                },
+                "sourceId": {
+                    "type": "string",
+                    "description": "任务来源id"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "状态"
+                },
+                "taskId": {
+                    "type": "string",
+                    "description": "任务id"
+                },
+                "taskSource": {
+                    "type": "string",
+                    "description": "任务来源类型"
+                }
+            },
+            "title": "任务执行结果"
+        },
+        "分页信息«Task,任务实体»": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/任务实体",
+                        "originalRef": "任务实体"
+                    }
+                },
+                "pageCount": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "总页数"
+                },
+                "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "偏移量 从1开始"
+                },
+                "pageSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "每页数量"
+                },
+                "total": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "总记录数"
+                }
+            },
+            "title": "分页信息«Task,任务实体»",
+            "description": "查询分页通用对象"
+        },
+        "素材信息": {
+            "type": "object",
+            "properties": {
+                "contentId": {
+                    "type": "string",
+                    "description": "素材id"
+                },
+                "fileguid": {
+                    "type": "string",
+                    "description": "文件GUID"
+                },
+                "keyframe": {
+                    "type": "string",
+                    "description": "关键帧"
+                },
+                "materialType": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "素材类型 1：图片，2：视频，3：音频"
+                },
+                "url": {
+                    "type": "string",
+                    "description": "素材地址"
+                }
+            },
+            "title": "素材信息"
+        },
+        "认领任务转换为稿件的实体": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "description": "正文"
+                },
+                "materials": {
+                    "type": "array",
+                    "description": "除封面外的素材集合，新媒体稿里面的图片视频，音频，视频稿件的视频素材，图集里面的图片",
+                    "items": {
+                        "$ref": "#/definitions/素材信息",
+                        "originalRef": "素材信息"
+                    }
+                },
+                "title": {
+                    "type": "string",
+                    "description": "标题"
+                }
+            },
+            "title": "认领任务转换为稿件的实体"
+        },
+        "认领状态统计": {
+            "type": "object",
+            "properties": {
+                "claimed": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "已认领数量"
+                },
+                "unclaim": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "未认领数量"
+                }
+            },
+            "title": "认领状态统计"
+        }
+    }
+}

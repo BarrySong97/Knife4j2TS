@@ -18,3 +18,6 @@ export const createApp = ViteSSG(
     Object.values(import.meta.globEager('./modules/*.ts')).forEach(i => i.install?.(ctx))
   },
 )
+
+
+
